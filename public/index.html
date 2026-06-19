@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <style>
+        /* (mantido o mesmo estilo do original) */
         * { font-family: 'Inter', sans-serif; }
         body { background: #0a0a0a; }
         .swiper-button-next, .swiper-button-prev { color: #d4af37; background: rgba(0,0,0,.6); width: 42px; height: 42px; border-radius: 50%; transition: .2s; backdrop-filter: blur(4px); }
@@ -31,8 +32,6 @@
         .spinner { border: 3px solid #374151; border-top-color: #d4af37; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
         input:focus, select:focus { border-color: #d4af37; outline: none; }
-
-        /* LIGHTBOX */
         .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
         .lightbox.active { display: flex; animation: fadeIn 0.25s ease-out; }
         .lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 12px; box-shadow: 0 0 40px rgba(212,175,55,0.4); }
@@ -42,8 +41,6 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .shop-photo { cursor: pointer; transition: transform 0.2s, filter 0.2s, box-shadow 0.2s; }
         .shop-photo:hover { transform: scale(1.08); filter: brightness(1.08); box-shadow: 0 0 12px rgba(212,175,55,0.5); }
-
-        /* TOAST DE CONFIRMAÇÃO */
         #toastConfirmado {
             position: fixed;
             bottom: 30px;
@@ -78,7 +75,6 @@
         .toast-text { color: #fff; }
         .toast-text strong { display: block; font-size: 1rem; font-weight: 800; }
         .toast-text span { font-size: 0.78rem; color: #86efac; }
-
         @media (max-width: 480px) {
             .lightbox-close { top: 15px; right: 15px; width: 44px; height: 44px; font-size: 32px; }
             .lightbox-caption { font-size: 1rem; bottom: 20px; }
@@ -87,7 +83,7 @@
 </head>
 <body class="text-gray-200">
 
-<!-- HEADER -->
+<!-- HEADER (mesmo conteúdo, apenas o botão ADMIN agora usa token) -->
 <header class="bg-black/95 border-b border-yellow-700/50 sticky top-0 z-30 shadow-2xl backdrop-blur-sm">
     <div class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div class="flex items-center gap-3">
@@ -341,20 +337,17 @@
 
 <script>
 // ============================================================
-//  ⚙️  CONFIGURAÇÃO — altere apenas esta linha
-// ============================================================
-const WHATSAPP_DONO = "5586995604785";  // ← substitua pelo número desejado
-//  ↑ Número do proprietário: DDI(55) + DDD + número
-//  Exemplo Fortaleza: "5585981234567"
+//  FRONTEND COMPLETO COM AUTENTICAÇÃO JWT
 // ============================================================
 
-const API            = "";          // mesmo domínio do backend
-const ADMIN_PASSWORD = "Cort11W";
+// ===== CONFIGURAÇÃO =====
+const API_BASE = '';          // Deixe vazio se o frontend for servido pelo mesmo backend, ou coloque a URL base (ex: 'http://localhost:3000')
+const WHATSAPP_DONO = "5586995604785";  // Número do proprietário
 
-let adminMode  = false;
+let adminToken = sessionStorage.getItem('adminToken') || null;
 let currentTab = "upcoming";
 
-// ─── Helpers ─────────────────────────────────────────────────
+// ===== HELPERS =====
 const getTodayStr = () => new Date().toISOString().split("T")[0];
 
 function escapeHtml(str) {
@@ -370,18 +363,50 @@ function showMsg(msg, color = "#22c55e") {
     setTimeout(() => el.classList.add("hidden"), 4500);
 }
 
-// ─── API ─────────────────────────────────────────────────────
+// ===== API (com token) =====
 async function apiFetch(path, options = {}) {
-    const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
-    const res  = await fetch(API + path, { headers, ...options });
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+    };
+    if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+    }
+    const res = await fetch(API_BASE + path, { ...options, headers });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Erro na comunicação");
+    if (!res.ok) {
+        // Se o token for inválido, deslogar automaticamente
+        if (res.status === 401 || res.status === 403) {
+            if (adminToken) {
+                adminToken = null;
+                sessionStorage.removeItem('adminToken');
+                updateAdminUI();
+                showMsg('⏳ Sessão expirada. Faça login novamente.', '#ef4444');
+            }
+        }
+        throw new Error(data.error || 'Erro na comunicação');
+    }
     return data;
 }
 
+// ===== LOGIN =====
+async function loginAdmin(password) {
+    const res = await fetch(API_BASE + '/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Falha no login');
+    adminToken = data.token;
+    sessionStorage.setItem('adminToken', adminToken);
+    return true;
+}
+
+// ===== FUNÇÕES DA API =====
 async function loadStats() {
     try {
-        const data = await apiFetch("/appointments/stats");
+        const data = await apiFetch('/appointments/stats');
         document.getElementById("activeCount").innerText    = data.pending   ?? 0;
         document.getElementById("completedCount").innerText = data.completed ?? 0;
     } catch {
@@ -402,28 +427,22 @@ async function loadAppointments() {
 }
 
 async function createAppointment(body) {
-    return apiFetch("/appointments", { method: "POST", body: JSON.stringify(body) });
+    return apiFetch('/appointments', { method: 'POST', body: JSON.stringify(body) });
 }
 
 async function completeAppointment(id) {
-    return apiFetch(`/appointments/${id}/complete`, {
-        method: "PATCH",
-        headers: { "x-admin-password": ADMIN_PASSWORD }
-    });
+    return apiFetch(`/appointments/${id}/complete`, { method: 'PATCH' });
 }
 
 async function deleteAppointment(id) {
-    return apiFetch(`/appointments/${id}`, {
-        method: "DELETE",
-        headers: { "x-admin-password": ADMIN_PASSWORD }
-    });
+    return apiFetch(`/appointments/${id}`, { method: 'DELETE' });
 }
 
 async function refreshAll() {
     await Promise.all([loadStats(), loadAppointments()]).catch(console.error);
 }
 
-// ─── Render lista ─────────────────────────────────────────────
+// ===== RENDER LISTA =====
 function renderAppointmentsList(appointments) {
     const container = document.getElementById("listaAgendamentos");
     if (!appointments || appointments.length === 0) {
@@ -455,7 +474,7 @@ function renderAppointmentsList(appointments) {
                 </div>
             </div>`;
 
-        if (adminMode) {
+        if (adminToken) {
             let btns = `<div class="flex gap-2 items-center ml-2">`;
             if (isPending) btns += `<button class="complete-btn p-2 rounded-full hover:bg-green-800/50 transition" data-id="${app.id}" title="Confirmar atendimento"><i class="fas fa-check-circle text-green-400 text-xl"></i></button>`;
             btns += `<button class="delete-btn p-2 rounded-full hover:bg-red-900/50 transition" data-id="${app.id}" title="Excluir"><i class="fas fa-trash-alt text-red-400 text-lg"></i></button></div>`;
@@ -464,7 +483,7 @@ function renderAppointmentsList(appointments) {
         return `<div class="bg-gray-800/40 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800/60 transition border-l-4 ${isPending ? "border-yellow-600/50" : "border-green-700/50"}">${infoHtml}</div>`;
     }).join("");
 
-    if (adminMode) {
+    if (adminToken) {
         document.querySelectorAll(".complete-btn").forEach(btn => {
             btn.addEventListener("click", async e => {
                 e.stopPropagation();
@@ -484,30 +503,30 @@ function renderAppointmentsList(appointments) {
     }
 }
 
-// ─── Status API ──────────────────────────────────────────────
+// ===== STATUS API =====
 async function checkApiStatus() {
     const bar  = document.getElementById("apiStatusBar");
     const span = document.getElementById("apiStatusText");
     try {
-        const data = await apiFetch("/");
+        const data = await apiFetch('/');
         bar.className  = "mb-6 flex items-center gap-2 text-xs bg-green-900/40 border border-green-700/70 rounded-2xl px-5 py-2.5 backdrop-blur-sm";
         span.className = "text-green-300 font-mono font-semibold";
         span.innerHTML = `✅ API ativa · ${data.api || "Barbearia API"} v${data.version || "1.0"} · 08:30-18:30`;
     } catch {
         bar.className  = "mb-6 flex items-center gap-2 text-xs bg-red-900/40 border border-red-700/60 rounded-2xl px-5 py-2.5";
         span.className = "text-red-300";
-        span.innerHTML = "seja bem vindo";
+        span.innerHTML = "⚠️ API indisponível";
     }
 }
 
-// ─── Admin ───────────────────────────────────────────────────
+// ===== ADMIN UI =====
 function updateAdminUI() {
     const btnSpan  = document.getElementById("adminBtnText");
     const badge    = document.getElementById("adminStatusBadge");
     const hintText = document.getElementById("adminHintText");
     const statusSp = document.getElementById("adminModeStatusText");
     const hintArea = document.getElementById("adminHintArea");
-    if (adminMode) {
+    if (adminToken) {
         btnSpan.innerHTML = "👑 SAIR ADMIN";
         badge.classList.remove("hidden"); badge.classList.add("admin-active-badge"); badge.innerHTML = "👑 MASTER";
         hintText.innerHTML = "🔓 ADMIN: ✓ confirmar | 🗑️ excluir";
@@ -523,17 +542,26 @@ function updateAdminUI() {
     refreshAll();
 }
 
-document.getElementById("adminToggleBtn").addEventListener("click", () => {
-    if (adminMode) {
-        adminMode = false; updateAdminUI(); showMsg("🔒 Modo admin desativado.", "#9ca3af");
-    } else {
-        const pwd = prompt("🔐 ACESSO RESTRITO — Insira a senha do administrador:");
-        if (pwd === ADMIN_PASSWORD) { adminMode = true; updateAdminUI(); showMsg("✅ Modo ADMIN ativado!", "#facc15"); }
-        else if (pwd !== null) alert("❌ Senha incorreta! Acesso negado.");
+document.getElementById("adminToggleBtn").addEventListener("click", async () => {
+    if (adminToken) {
+        adminToken = null;
+        sessionStorage.removeItem('adminToken');
+        updateAdminUI();
+        showMsg("🔒 Modo admin desativado.", "#9ca3af");
+        return;
+    }
+    const pwd = prompt("🔐 ACESSO RESTRITO — Insira a senha do administrador:");
+    if (!pwd) return;
+    try {
+        await loginAdmin(pwd);
+        updateAdminUI();
+        showMsg("✅ Modo ADMIN ativado!", "#facc15");
+    } catch (err) {
+        alert("❌ " + err.message);
     }
 });
 
-// ─── Tabs ────────────────────────────────────────────────────
+// ===== TABS =====
 function setTab(tab) {
     currentTab = tab;
     const u = document.getElementById("tabUpcoming");
@@ -550,13 +578,10 @@ function setTab(tab) {
 document.getElementById("tabUpcoming").addEventListener("click", () => setTab("upcoming"));
 document.getElementById("tabHistory").addEventListener("click", () => setTab("history"));
 
-// ============================================================
-//  📲  WHATSAPP — abre direto, sem modal, sem clicar em nada
-// ============================================================
+// ===== WHATSAPP =====
 function enviarWhatsappDono(dados) {
     const [ano, mes, dia] = dados.data.split("-");
     const dataFmt = `${dia}/${mes}/${ano}`;
-
     const msg = [
         `✂️ *NOVO AGENDAMENTO — CORTEWR*`,
         ``,
@@ -568,17 +593,14 @@ function enviarWhatsappDono(dados) {
         ``,
         `✅ Agendamento registrado com sucesso no sistema!`,
     ].join("\n");
-
     const url = `https://wa.me/${WHATSAPP_DONO}?text=${encodeURIComponent(msg)}`;
-
-    // Tenta abrir em nova aba; se bloqueado, redireciona a página
     const win = window.open(url, '_blank');
     if (!win || win.closed || typeof win.closed === 'undefined') {
         window.location.href = url;
     }
 }
 
-// Toast visual de feedback (sobe da parte de baixo)
+// Toast
 let toastTimer = null;
 function mostrarToast() {
     const toast = document.getElementById("toastConfirmado");
@@ -587,17 +609,15 @@ function mostrarToast() {
     toastTimer = setTimeout(() => toast.classList.remove("show"), 4000);
 }
 
-// ─── Submit do formulário ─────────────────────────────────────
+// ===== SUBMIT FORM =====
 document.getElementById("formAgendamento").addEventListener("submit", async e => {
     e.preventDefault();
-
     const btn  = document.getElementById("submitBtn");
     btn.disabled = true;
     btn.innerHTML = `<span class="spinner"></span> Enviando agendamento...`;
 
     const nome     = document.getElementById("nomeCliente").value.trim();
     const telefone = document.getElementById("telefone").value.trim();
-
     if (!nome || !telefone) {
         showMsg("❌ Preencha nome e telefone corretamente.", "#ef4444");
         btn.disabled = false;
@@ -615,23 +635,12 @@ document.getElementById("formAgendamento").addEventListener("submit", async e =>
 
     try {
         await createAppointment(dados);
-
-        // 1️⃣  Limpar formulário
         e.target.reset();
         document.getElementById("dataAgendamento").value = getTodayStr();
-
-        // 2️⃣  Mostrar toast de confirmação
         mostrarToast();
-
-        // 3️⃣  Abrir WhatsApp do dono após pequeno delay para visualização do toast
-        setTimeout(() => {
-            enviarWhatsappDono(dados);
-        }, 800);
-
-        // 4️⃣  Atualizar lista
+        setTimeout(() => enviarWhatsappDono(dados), 800);
         setTab("upcoming");
         refreshAll();
-
     } catch (err) {
         showMsg(`❌ Erro ao agendar: ${err.message}`, "#ef4444");
     } finally {
@@ -640,7 +649,7 @@ document.getElementById("formAgendamento").addEventListener("submit", async e =>
     }
 });
 
-// ─── Lightbox ────────────────────────────────────────────────
+// ===== LIGHTBOX =====
 function initLightboxAndZoom() {
     const lightbox = document.getElementById("lightbox");
     const lbImg    = document.getElementById("lightboxImg");
@@ -674,21 +683,18 @@ function initLightboxAndZoom() {
         });
     }
 
-    const swiperWrapper = document.querySelector(".swiper-wrapper");
-    if (swiperWrapper) {
-        swiperWrapper.addEventListener("click", e => {
-            const img   = e.target.closest("img");
-            const slide = e.target.closest(".swiper-slide");
-            if (!img || !slide) return;
-            e.stopPropagation();
-            const title = slide.dataset.title || slide.querySelector("h3")?.innerText || "Estilo Exclusivo";
-            const price = slide.dataset.price || "";
-            window.openImageFullscreen(img.src, title, price);
-        });
-    }
+    document.querySelector(".swiper-wrapper")?.addEventListener("click", e => {
+        const img = e.target.closest("img");
+        const slide = e.target.closest(".swiper-slide");
+        if (!img || !slide) return;
+        e.stopPropagation();
+        const title = slide.dataset.title || slide.querySelector("h3")?.innerText || "Estilo Exclusivo";
+        const price = slide.dataset.price || "";
+        window.openImageFullscreen(img.src, title, price);
+    });
 }
 
-// ─── Swiper ──────────────────────────────────────────────────
+// ===== SWIPER =====
 function initSwiper() {
     if (typeof Swiper !== "undefined") {
         new Swiper(".mySwiper", {
@@ -703,7 +709,7 @@ function initSwiper() {
     }
 }
 
-// ─── Init ─────────────────────────────────────────────────────
+// ===== INIT =====
 const dateInput = document.getElementById("dataAgendamento");
 dateInput.setAttribute("min", getTodayStr());
 dateInput.value = getTodayStr();
@@ -712,6 +718,8 @@ initSwiper();
 initLightboxAndZoom();
 setInterval(refreshAll, 28000);
 checkApiStatus();
+// Restaurar token e atualizar UI
+if (adminToken) updateAdminUI();
 refreshAll();
 </script>
 </body>
