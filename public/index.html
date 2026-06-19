@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>CORTEWR - Barbearia</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CORTEWR - Barbearia Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <style>
         * { font-family: 'Inter', sans-serif; }
@@ -87,7 +87,7 @@
     <div class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
         <div class="flex items-center gap-3">
             <img src="alogo.jpeg" alt="Barbearia Corte Nobre"
-                class="shop-photo w-11 h-11 rounded-full border-2 border-yellow-600/80 object-cover shadow-md" />
+                class="shop-photo w-11 h-11 rounded-full border-2 border-yellow-600/80 object-cover shadow-md">
             <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight"><span class="text-yellow-500">CORTE</span>WR</h1>
         </div>
         <div class="flex gap-6 text-sm font-semibold items-center">
@@ -110,9 +110,10 @@
 
 <main class="container mx-auto px-4 py-8 max-w-6xl">
 
-    <!-- STATUS LOCAL -->
-    <div id="apiStatusBar" class="mb-6 flex items-center gap-2 text-xs bg-green-900/40 border border-green-700/70 rounded-2xl px-5 py-2.5 backdrop-blur-sm">
-        <span class="text-green-300 font-mono font-semibold">✅ Dados salvos localmente (localStorage) · 08:30-18:30</span>
+    <!-- STATUS API -->
+    <div id="apiStatusBar" class="mb-6 flex items-center gap-2 text-xs bg-gray-900/80 border border-gray-700 rounded-2xl px-5 py-2.5 backdrop-blur-sm">
+        <span class="spinner"></span>
+        <span id="apiStatusText" class="text-gray-400 font-mono">Conectando à API...</span>
     </div>
 
     <!-- MÉTRICAS -->
@@ -143,7 +144,7 @@
     <div class="flex flex-wrap justify-between gap-3 bg-black/50 p-4 rounded-2xl mb-10 text-sm border border-gray-800 backdrop-blur-sm">
         <div class="flex items-center gap-2"><i class="fas fa-clock text-yellow-500 text-lg"></i> <span class="font-medium">✂️ SEG-SAB: 08:30 – 11:50 | 13:00 – 18:30</span></div>
         <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-yellow-500"></i> Projeto Lagoa Nova</div>
-        <div class="flex items-center gap-2"><i class="fas fa-database text-yellow-400"></i> localStorage</div>
+        <div class="flex items-center gap-2"><i class="fas fa-plug text-green-400"></i> ativo</div>
     </div>
 
     <!-- CARROSSEL -->
@@ -156,42 +157,42 @@
         <div class="swiper mySwiper rounded-2xl overflow-hidden shadow-2xl border border-yellow-800/30">
             <div class="swiper-wrapper">
                 <div class="swiper-slide relative" data-title="Moica-america" data-price="R$15">
-                    <img src="c1.jpeg" alt="Moica-america" loading="lazy" />
+                    <img src="c1.jpeg" alt="Moica-america" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">Moica-america</h3>
                         <p class="text-yellow-300 font-semibold">R$15 · Corte Premium</p>
                     </div>
                 </div>
                 <div class="swiper-slide relative" data-title="mid Fada" data-price="R$15">
-                    <img src="c2.jpeg" alt="mid Fada" loading="lazy" />
+                    <img src="c2.jpeg" alt="mid Fada" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">mid Fada</h3>
                         <p class="text-yellow-300 font-semibold">R$15 · Estilo Urbano</p>
                     </div>
                 </div>
                 <div class="swiper-slide relative" data-title="Combo Nevou+Corte" data-price="R$60">
-                    <img src="c3.jpeg" alt="Combo Nevou+Corte" loading="lazy" />
+                    <img src="c3.jpeg" alt="Combo Nevou+Corte" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">Combo Nevou+Corte</h3>
                         <p class="text-yellow-300 font-semibold">R$60 · Pacote Completo</p>
                     </div>
                 </div>
                 <div class="swiper-slide relative" data-title="Combo corte+luzes" data-price="R$50">
-                    <img src="c4.jpeg" alt="Combo corte+luzes" loading="lazy" />
+                    <img src="c4.jpeg" alt="Combo corte+luzes" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">Combo corte+luzes</h3>
                         <p class="text-yellow-300 font-semibold">R$50 · + Pigmentação</p>
                     </div>
                 </div>
                 <div class="swiper-slide relative" data-title="Corte militar" data-price="R$17">
-                    <img src="c5.jpeg" alt="Corte militar" loading="lazy" />
+                    <img src="c5.jpeg" alt="Corte militar" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">Corte militar</h3>
                         <p class="text-yellow-300 font-semibold">R$17 · Estilo Clássico</p>
                     </div>
                 </div>
                 <div class="swiper-slide relative" data-title="mioco trem" data-price="R$15">
-                    <img src="c6.jpeg" alt="mioco trem" loading="lazy" />
+                    <img src="c6.jpeg" alt="mioco trem" loading="lazy">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
                         <h3 class="text-2xl font-bold">mioco trem</h3>
                         <p class="text-yellow-300 font-semibold">R$15 · Tendência</p>
@@ -220,12 +221,12 @@
                 <div>
                     <label class="block text-sm font-semibold mb-1 text-gray-300">Nome completo</label>
                     <input type="text" id="nomeCliente" placeholder="Ex: João Silva" required
-                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500 transition" />
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500 transition">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-1 text-gray-300">WhatsApp</label>
                     <input type="tel" id="telefone" placeholder="(85) 99999-9999" required
-                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500" />
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-1 text-gray-300">Serviço</label>
@@ -242,7 +243,7 @@
                 <div>
                     <label class="block text-sm font-semibold mb-1 text-gray-300">Data</label>
                     <input type="date" id="dataAgendamento" required
-                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5" />
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold mb-1 text-gray-300">Horário</label>
@@ -300,10 +301,10 @@
                 </div>
             </div>
             <div id="listaAgendamentos" class="space-y-3 max-h-[440px] overflow-y-auto pr-1">
-                <div class="text-center text-gray-500 py-10"><span class="spinner"></span> Carregando...</div>
+                <div class="text-center text-gray-500 py-10"><span class="spinner"></span> Carregando agendamentos...</div>
             </div>
             <div class="mt-3 text-xs text-gray-500 border-t border-gray-800 pt-3 flex justify-between items-center">
-                <span><i class="fas fa-database text-yellow-600"></i> localStorage</span>
+                <span><i class="fas fa-database text-yellow-600"></i> em tempo real</span>
                 <span id="adminModeStatusText" class="text-yellow-600/80 font-mono text-[11px]"></span>
             </div>
         </div>
@@ -318,7 +319,7 @@
 <!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox">
     <div class="lightbox-close" id="lightboxClose">&times;</div>
-    <img id="lightboxImg" src="" alt="Imagem ampliada" />
+    <img id="lightboxImg" src="" alt="Imagem ampliada">
     <div id="lightboxCaption" class="lightbox-caption"></div>
 </div>
 
@@ -334,412 +335,404 @@
 </div>
 
 <script>
-    // ================================================================
-    //  CÓDIGO COMPLETO – Barbearia CORTEWR (localStorage + SHA-256)
-    // ================================================================
+// ============================================================
+//  🔐 CONFIGURAÇÃO DE SEGURANÇA (Front-end seguro)
+//  A senha NÃO fica mais aqui! Ela fica no Back-end (.env)
+// ============================================================
+const WHATSAPP_DONO = "5586995604785";
+const API            = ""; // Deixe vazio se for mesmo domínio
 
-    // ----- CONFIGURAÇÕES -----
-    const WHATSAPP_DONO = "5586995604785";   // Número do proprietário
-    const ADMIN_PASSWORD_HASH = "9f86d081884c7d659a9fe9d4e8f7d9f6a5a8e3d9c6b8a7f6e5d4c3b2a1f0e9d8c"; // SHA-256 de "Cort11W"
+let adminMode  = false;
+let adminToken = null;      // Token JWT guardado em memória/sessionStorage
+let currentTab = "upcoming";
 
-    let adminMode = false;
-    let currentTab = "upcoming";
-    let appointments = [];
+// ─── Helpers ─────────────────────────────────────────────────
+const getTodayStr = () => new Date().toISOString().split("T")[0];
 
-    // ----- HELPERS -----
-    const getTodayStr = () => new Date().toISOString().split("T")[0];
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
+}
 
-    function escapeHtml(str) {
-        if (!str) return "";
-        return str.replace(/[&<>]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
-    }
+function showMsg(msg, color = "#22c55e") {
+    const el = document.getElementById("msgFeedback");
+    el.innerText = msg;
+    el.style.color = color;
+    el.classList.remove("hidden");
+    setTimeout(() => el.classList.add("hidden"), 4500);
+}
 
-    function showMsg(msg, color = "#22c55e") {
-        const el = document.getElementById("msgFeedback");
-        el.innerText = msg;
-        el.style.color = color;
-        el.classList.remove("hidden");
-        setTimeout(() => el.classList.add("hidden"), 4500);
-    }
+// ─── API ─────────────────────────────────────────────────────
+async function apiFetch(path, options = {}) {
+    const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+    const res  = await fetch(API + path, { headers, ...options });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro na comunicação");
+    return data;
+}
 
-    // ----- HASH SHA-256 (Web Crypto API) -----
-    async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    // ----- PERSISTÊNCIA (localStorage) -----
-    function loadFromStorage() {
-        const stored = localStorage.getItem('cortewr_appointments');
-        if (stored) {
-            try { appointments = JSON.parse(stored); } catch { appointments = []; }
-        } else {
-            // Dados iniciais (exemplo)
-            const today = getTodayStr();
-            appointments = [
-                { id: 1, nome: 'João Silva', telefone: '(85) 99999-1111', servico: 'Moica-america - R$15', data: today, horario: '09:00', status: 'pending' },
-                { id: 2, nome: 'Carlos Souza', telefone: '(85) 98888-2222', servico: 'Corte militar - R$17', data: today, horario: '14:30', status: 'completed' }
-            ];
-            saveToStorage();
-        }
-        // Garantir que sempre haja um ID sequencial
-        const maxId = appointments.reduce((max, a) => Math.max(max, a.id || 0), 0);
-        window._nextId = maxId + 1;
-    }
-
-    function saveToStorage() {
-        localStorage.setItem('cortewr_appointments', JSON.stringify(appointments));
-    }
-
-    function getNextId() {
-        return window._nextId++;
-    }
-
-    // ----- CRUD -----
-    function createAppointment(data) {
-        const newApp = {
-            id: getNextId(),
-            nome: data.nome.trim(),
-            telefone: data.telefone.trim(),
-            servico: data.servico.trim(),
-            data: data.data,
-            horario: data.horario,
-            status: 'pending'
-        };
-        appointments.push(newApp);
-        saveToStorage();
-        return newApp;
-    }
-
-    function completeAppointment(id) {
-        const app = appointments.find(a => a.id === id);
-        if (app && app.status === 'pending') {
-            app.status = 'completed';
-            saveToStorage();
-            return true;
-        }
-        return false;
-    }
-
-    function deleteAppointment(id) {
-        const index = appointments.findIndex(a => a.id === id);
-        if (index !== -1) {
-            appointments.splice(index, 1);
-            saveToStorage();
-            return true;
-        }
-        return false;
-    }
-
-    function getStats() {
-        const pending = appointments.filter(a => a.status === 'pending').length;
-        const completed = appointments.filter(a => a.status === 'completed').length;
-        return { pending, completed };
-    }
-
-    function getAppointments(status) {
-        if (status) return appointments.filter(a => a.status === status);
-        return appointments;
-    }
-
-    // ----- RENDER -----
-    function renderStats() {
-        const stats = getStats();
-        document.getElementById('activeCount').innerText = stats.pending;
-        document.getElementById('completedCount').innerText = stats.completed;
-    }
-
-    function renderList() {
-        const container = document.getElementById('listaAgendamentos');
-        const list = getAppointments(currentTab === 'upcoming' ? 'pending' : 'completed');
-
-        if (list.length === 0) {
-            const msg = currentTab === 'upcoming'
-                ? '✨ Nenhum agendamento pendente. Agende o seu horário!'
-                : '📜 Nenhum atendimento no histórico até o momento.';
-            container.innerHTML = `<div class="bg-gray-800/50 rounded-xl p-6 text-center text-gray-400">${msg}</div>`;
-            return;
-        }
-
-        container.innerHTML = list.map(app => {
-            const [ano, mes, dia] = app.data.split('-');
-            const dataFmt = `${dia}/${mes}/${ano}`;
-            const isPending = app.status === 'pending';
-            const badge = isPending
-                ? `<span class="text-xs bg-blue-800/70 text-blue-200 px-2 py-0.5 rounded-full"><i class="fas fa-hourglass-half"></i> Pendente</span>`
-                : `<span class="text-xs bg-green-800/70 text-green-200 px-2 py-0.5 rounded-full"><i class="fas fa-check-circle"></i> Realizado</span>`;
-
-            const infoHtml = `
-                <div class="flex-1">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="font-extrabold text-yellow-300 text-base">${escapeHtml(app.nome)}</span>
-                        <span class="text-xs bg-gray-700 px-2 py-0.5 rounded-full"><i class="fas fa-cut"></i> ${escapeHtml(app.servico.substring(0,40))}</span>
-                        ${badge}
-                    </div>
-                    <div class="text-sm text-gray-300 mt-1.5 flex gap-4 flex-wrap">
-                        <span><i class="far fa-calendar-alt text-yellow-500"></i> ${dataFmt}</span>
-                        <span><i class="far fa-clock text-yellow-500"></i> <strong class="text-white">${app.horario}</strong></span>
-                        <span><i class="fas fa-phone-alt text-gray-500"></i> ${escapeHtml(app.telefone)}</span>
-                    </div>
-                </div>`;
-
-            if (adminMode) {
-                let btns = `<div class="flex gap-2 items-center ml-2">`;
-                if (isPending) btns += `<button class="complete-btn p-2 rounded-full hover:bg-green-800/50 transition" data-id="${app.id}" title="Confirmar atendimento"><i class="fas fa-check-circle text-green-400 text-xl"></i></button>`;
-                btns += `<button class="delete-btn p-2 rounded-full hover:bg-red-900/50 transition" data-id="${app.id}" title="Excluir"><i class="fas fa-trash-alt text-red-400 text-lg"></i></button></div>`;
-                return `<div class="bg-gray-800/60 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800 transition border-l-4 ${isPending ? "border-yellow-600" : "border-green-700"}">${infoHtml}${btns}</div>`;
-            }
-            return `<div class="bg-gray-800/40 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800/60 transition border-l-4 ${isPending ? "border-yellow-600/50" : "border-green-700/50"}">${infoHtml}</div>`;
-        }).join('');
-
-        // Event listeners para botões admin (se ativo)
-        if (adminMode) {
-            document.querySelectorAll('.complete-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = parseInt(btn.dataset.id);
-                    if (confirm('✂️ Marcar este corte como REALIZADO?')) {
-                        if (completeAppointment(id)) {
-                            showMsg('✅ Atendimento confirmado!');
-                            refreshAll();
-                        }
-                    }
-                });
-            });
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = parseInt(btn.dataset.id);
-                    if (confirm('⚠️ Excluir este agendamento permanentemente?')) {
-                        if (deleteAppointment(id)) {
-                            showMsg('🗑️ Removido.', '#f97316');
-                            refreshAll();
-                        }
-                    }
-                });
-            });
-        }
-    }
-
-    function refreshAll() {
-        renderStats();
-        renderList();
-    }
-
-    // ----- ADMIN UI -----
-    function updateAdminUI() {
-        const btnSpan = document.getElementById('adminBtnText');
-        const badge = document.getElementById('adminStatusBadge');
-        const hintText = document.getElementById('adminHintText');
-        const statusSp = document.getElementById('adminModeStatusText');
-        const hintArea = document.getElementById('adminHintArea');
-
-        if (adminMode) {
-            btnSpan.innerHTML = '👑 SAIR ADMIN';
-            badge.classList.remove('hidden');
-            badge.classList.add('admin-active-badge');
-            badge.innerHTML = '👑 MASTER';
-            hintText.innerHTML = '🔓 ADMIN: ✓ confirmar | 🗑️ excluir';
-            statusSp.innerHTML = '👑 Modo Admin ativo';
-            hintArea.classList.add('border', 'border-yellow-600/60', 'bg-yellow-900/30');
-        } else {
-            btnSpan.innerHTML = '🔐 ADMIN';
-            badge.classList.add('hidden');
-            badge.classList.remove('admin-active-badge');
-            hintText.innerHTML = '🔒 Público: visualização apenas';
-            statusSp.innerHTML = '';
-            hintArea.classList.remove('border', 'border-yellow-600/60', 'bg-yellow-900/30');
-        }
-        refreshAll();
-    }
-
-    // ----- LOGIN (com hash) -----
-    document.getElementById('adminToggleBtn').addEventListener('click', async () => {
-        if (adminMode) {
-            adminMode = false;
-            updateAdminUI();
-            showMsg('🔒 Modo admin desativado.', '#9ca3af');
-            return;
-        }
-
-        const pwd = prompt('🔐 ACESSO RESTRITO — Insira a senha do administrador:');
-        if (pwd === null) return;
-
-        try {
-            const hash = await sha256(pwd);
-            if (hash === ADMIN_PASSWORD_HASH) {
-                adminMode = true;
-                updateAdminUI();
-                showMsg('✅ Modo ADMIN ativado!', '#facc15');
-            } else {
-                alert('❌ Senha incorreta! Acesso negado.');
-            }
-        } catch (err) {
-            alert('❌ Erro ao verificar a senha: ' + err.message);
-        }
+// ─── Autenticação (Login) ──────────────────────────────────
+async function loginAdmin(password) {
+    const res = await fetch(API + "/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
     });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Falha no login");
+    return data.token; // Retorna o JWT
+}
 
-    // ----- TABS -----
-    function setTab(tab) {
-        currentTab = tab;
-        const u = document.getElementById('tabUpcoming');
-        const h = document.getElementById('tabHistory');
-        if (tab === 'upcoming') {
-            u.className = 'tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1';
-            h.className = 'tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1';
-        } else {
-            u.className = 'tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1';
-            h.className = 'tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1';
-        }
-        renderList();
+// ─── Requisições com Token ────────────────────────────────
+async function apiFetchAuth(path, options = {}) {
+    if (!adminToken) throw new Error("Não autenticado como admin.");
+    const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${adminToken}`,
+        ...(options.headers || {})
+    };
+    const res = await fetch(API + path, { ...options, headers });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro na ação administrativa");
+    return data;
+}
+
+// ─── Loaders ────────────────────────────────────────────────
+async function loadStats() {
+    try {
+        const data = await apiFetch("/appointments/stats");
+        document.getElementById("activeCount").innerText    = data.pending   ?? 0;
+        document.getElementById("completedCount").innerText = data.completed ?? 0;
+    } catch {
+        document.getElementById("activeCount").innerText    = "0";
+        document.getElementById("completedCount").innerText = "0";
     }
-    document.getElementById('tabUpcoming').addEventListener('click', () => setTab('upcoming'));
-    document.getElementById('tabHistory').addEventListener('click', () => setTab('history'));
+}
 
-    // ----- WHATSAPP -----
-    function enviarWhatsappDono(dados) {
-        const [ano, mes, dia] = dados.data.split('-');
-        const dataFmt = `${dia}/${mes}/${ano}`;
-        const msg = [
-            '✂️ *NOVO AGENDAMENTO — CORTEWR*',
-            '',
-            `👤 *Cliente:* ${dados.nome}`,
-            `📋 *Serviço:* ${dados.servico}`,
-            `📅 *Data:* ${dataFmt}`,
-            `⏰ *Horário:* ${dados.horario}`,
-            `📱 *WhatsApp do cliente:* ${dados.telefone}`,
-            '',
-            '✅ Agendamento registrado com sucesso no sistema!'
-        ].join('\n');
-        const url = `https://wa.me/${WHATSAPP_DONO}?text=${encodeURIComponent(msg)}`;
-        const win = window.open(url, '_blank');
-        if (!win || win.closed || typeof win.closed === 'undefined') {
-            window.location.href = url;
-        }
+async function loadAppointments() {
+    const status = currentTab === "upcoming" ? "pending" : "completed";
+    try {
+        const data = await apiFetch(`/appointments?status=${status}`);
+        renderAppointmentsList(data.appointments || []);
+    } catch (err) {
+        document.getElementById("listaAgendamentos").innerHTML =
+            `<div class="bg-red-900/30 border border-red-700 rounded-xl p-4 text-center text-red-300 text-sm">⚠️ Falha: ${err.message}</div>`;
     }
+}
 
-    // ----- TOAST -----
-    let toastTimer = null;
-    function mostrarToast() {
-        const toast = document.getElementById('toastConfirmado');
-        if (toastTimer) clearTimeout(toastTimer);
-        toast.classList.add('show');
-        toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+async function createAppointment(body) {
+    return apiFetch("/appointments", { method: "POST", body: JSON.stringify(body) });
+}
+
+async function completeAppointment(id) {
+    return apiFetchAuth(`/appointments/${id}/complete`, { method: "PATCH" });
+}
+
+async function deleteAppointment(id) {
+    return apiFetchAuth(`/appointments/${id}`, { method: "DELETE" });
+}
+
+async function refreshAll() {
+    await Promise.all([loadStats(), loadAppointments()]).catch(console.error);
+}
+
+// ─── Render lista ─────────────────────────────────────────────
+function renderAppointmentsList(appointments) {
+    const container = document.getElementById("listaAgendamentos");
+    if (!appointments || appointments.length === 0) {
+        const msg = currentTab === "upcoming"
+            ? "✨ Nenhum agendamento pendente. Agende o seu horário!"
+            : "📜 Nenhum atendimento no histórico até o momento.";
+        container.innerHTML = `<div class="bg-gray-800/50 rounded-xl p-6 text-center text-gray-400">${msg}</div>`;
+        return;
     }
+    container.innerHTML = appointments.map(app => {
+        const [ano, mes, dia] = app.data.split("-");
+        const dataFmt   = `${dia}/${mes}/${ano}`;
+        const isPending = app.status === "pending";
+        const badge     = isPending
+            ? `<span class="text-xs bg-blue-800/70 text-blue-200 px-2 py-0.5 rounded-full"><i class="fas fa-hourglass-half"></i> Pendente</span>`
+            : `<span class="text-xs bg-green-800/70 text-green-200 px-2 py-0.5 rounded-full"><i class="fas fa-check-circle"></i> Realizado</span>`;
 
-    // ----- SUBMIT FORM -----
-    document.getElementById('formAgendamento').addEventListener('submit', async (e) => {
-        e.preventDefault();
+        const infoHtml = `
+            <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-extrabold text-yellow-300 text-base">${escapeHtml(app.nome)}</span>
+                    <span class="text-xs bg-gray-700 px-2 py-0.5 rounded-full"><i class="fas fa-cut"></i> ${escapeHtml(app.servico.substring(0,40))}</span>
+                    ${badge}
+                </div>
+                <div class="text-sm text-gray-300 mt-1.5 flex gap-4 flex-wrap">
+                    <span><i class="far fa-calendar-alt text-yellow-500"></i> ${dataFmt}</span>
+                    <span><i class="far fa-clock text-yellow-500"></i> <strong class="text-white">${app.horario}</strong></span>
+                    <span><i class="fas fa-phone-alt text-gray-500"></i> ${escapeHtml(app.telefone)}</span>
+                </div>
+            </div>`;
 
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.innerHTML = `<span class="spinner"></span> Enviando agendamento...`;
-
-        const nome = document.getElementById('nomeCliente').value.trim();
-        const telefone = document.getElementById('telefone').value.trim();
-        if (!nome || !telefone) {
-            showMsg('❌ Preencha nome e telefone corretamente.', '#ef4444');
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
-            return;
+        if (adminMode) {
+            let btns = `<div class="flex gap-2 items-center ml-2">`;
+            if (isPending) btns += `<button class="complete-btn p-2 rounded-full hover:bg-green-800/50 transition" data-id="${app.id}" title="Confirmar atendimento"><i class="fas fa-check-circle text-green-400 text-xl"></i></button>`;
+            btns += `<button class="delete-btn p-2 rounded-full hover:bg-red-900/50 transition" data-id="${app.id}" title="Excluir"><i class="fas fa-trash-alt text-red-400 text-lg"></i></button></div>`;
+            return `<div class="bg-gray-800/60 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800 transition border-l-4 ${isPending ? "border-yellow-600" : "border-green-700"}">${infoHtml}${btns}</div>`;
         }
+        return `<div class="bg-gray-800/40 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800/60 transition border-l-4 ${isPending ? "border-yellow-600/50" : "border-green-700/50"}">${infoHtml}</div>`;
+    }).join("");
 
-        const dados = {
-            nome,
-            telefone,
-            servico: document.getElementById('servico').value,
-            data: document.getElementById('dataAgendamento').value,
-            horario: document.getElementById('horario').value,
-        };
-
-        try {
-            createAppointment(dados);
-            e.target.reset();
-            document.getElementById('dataAgendamento').value = getTodayStr();
-            mostrarToast();
-            setTimeout(() => enviarWhatsappDono(dados), 800);
-            setTab('upcoming');
-            refreshAll();
-        } catch (err) {
-            showMsg(`❌ Erro ao agendar: ${err.message}`, '#ef4444');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
-        }
-    });
-
-    // ----- LIGHTBOX -----
-    function initLightboxAndZoom() {
-        const lightbox = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lightboxImg');
-        const lbCap = document.getElementById('lightboxCaption');
-        const closeBtn = document.getElementById('lightboxClose');
-
-        window.openImageFullscreen = (src, title, sub = '') => {
-            lbImg.src = src;
-            lbCap.textContent = sub ? `${title} · ${sub}` : title;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-            lbImg.src = '';
-        }
-
-        closeBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-        });
-
-        const shopPhoto = document.querySelector('.shop-photo');
-        if (shopPhoto) {
-            shopPhoto.addEventListener('click', e => {
+    if (adminMode) {
+        document.querySelectorAll(".complete-btn").forEach(btn => {
+            btn.addEventListener("click", async e => {
                 e.stopPropagation();
-                window.openImageFullscreen(shopPhoto.src, shopPhoto.alt || 'CORTEWR', 'Barbearia Premium');
+                if (!confirm("✂️ Marcar este corte como REALIZADO?")) return;
+                try { await completeAppointment(btn.dataset.id); showMsg("✅ Atendimento confirmado!"); refreshAll(); }
+                catch (err) { showMsg(`❌ Erro: ${err.message}`, "#ef4444"); }
             });
-        }
+        });
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", async e => {
+                e.stopPropagation();
+                if (!confirm("⚠️ Excluir este agendamento permanentemente?")) return;
+                try { await deleteAppointment(btn.dataset.id); showMsg("🗑️ Removido.", "#f97316"); refreshAll(); }
+                catch (err) { showMsg(`❌ Falha: ${err.message}`, "#ef4444"); }
+            });
+        });
+    }
+}
 
-        document.querySelector('.swiper-wrapper')?.addEventListener('click', e => {
-            const img = e.target.closest('img');
-            const slide = e.target.closest('.swiper-slide');
+// ─── Status API ──────────────────────────────────────────────
+async function checkApiStatus() {
+    const bar  = document.getElementById("apiStatusBar");
+    const span = document.getElementById("apiStatusText");
+    try {
+        const data = await apiFetch("/");
+        bar.className  = "mb-6 flex items-center gap-2 text-xs bg-green-900/40 border border-green-700/70 rounded-2xl px-5 py-2.5 backdrop-blur-sm";
+        span.className = "text-green-300 font-mono font-semibold";
+        span.innerHTML = `✅ API ativa · ${data.api || "Barbearia API"} v${data.version || "1.0"} · 08:30-18:30`;
+    } catch {
+        bar.className  = "mb-6 flex items-center gap-2 text-xs bg-red-900/40 border border-red-700/60 rounded-2xl px-5 py-2.5";
+        span.className = "text-red-300";
+        span.innerHTML = "⚠️ API offline — verifique o servidor";
+    }
+}
+
+// ─── Admin (com token) ──────────────────────────────────────
+function updateAdminUI() {
+    const btnSpan  = document.getElementById("adminBtnText");
+    const badge    = document.getElementById("adminStatusBadge");
+    const hintText = document.getElementById("adminHintText");
+    const statusSp = document.getElementById("adminModeStatusText");
+    const hintArea = document.getElementById("adminHintArea");
+    if (adminMode) {
+        btnSpan.innerHTML = "👑 SAIR ADMIN";
+        badge.classList.remove("hidden"); badge.classList.add("admin-active-badge"); badge.innerHTML = "👑 MASTER";
+        hintText.innerHTML = "🔓 ADMIN: ✓ confirmar | 🗑️ excluir";
+        statusSp.innerHTML = "👑 Modo Admin ativo (JWT)";
+        hintArea.classList.add("border","border-yellow-600/60","bg-yellow-900/30");
+    } else {
+        btnSpan.innerHTML = "🔐 ADMIN";
+        badge.classList.add("hidden"); badge.classList.remove("admin-active-badge");
+        hintText.innerHTML = "🔒 Público: visualização apenas";
+        statusSp.innerHTML = "";
+        hintArea.classList.remove("border","border-yellow-600/60","bg-yellow-900/30");
+        adminToken = null;
+        sessionStorage.removeItem("adminToken");
+    }
+    refreshAll();
+}
+
+document.getElementById("adminToggleBtn").addEventListener("click", async () => {
+    if (adminMode) {
+        adminMode = false;
+        updateAdminUI();
+        showMsg("🔒 Modo admin desativado.", "#9ca3af");
+        return;
+    }
+
+    const pwd = prompt("🔐 ACESSO RESTRITO — Insira a senha do administrador:");
+    if (pwd === null) return;
+
+    try {
+        const token = await loginAdmin(pwd);
+        adminToken = token;
+        sessionStorage.setItem("adminToken", token);
+        adminMode = true;
+        updateAdminUI();
+        showMsg("✅ Modo ADMIN ativado com segurança (JWT)!", "#facc15");
+    } catch (err) {
+        alert(`❌ Falha no login: ${err.message}`);
+    }
+});
+
+// Verifica se já existe token salvo na sessão ao carregar a página
+(function restoreSession() {
+    const saved = sessionStorage.getItem("adminToken");
+    if (saved) {
+        adminToken = saved;
+        adminMode = true;
+        updateAdminUI();
+        showMsg("🔓 Sessão administrativa restaurada.", "#facc15");
+    }
+})();
+
+// ─── Tabs ────────────────────────────────────────────────────
+function setTab(tab) {
+    currentTab = tab;
+    const u = document.getElementById("tabUpcoming");
+    const h = document.getElementById("tabHistory");
+    if (tab === "upcoming") {
+        u.className = "tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+        h.className = "tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+    } else {
+        u.className = "tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+        h.className = "tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+    }
+    loadAppointments();
+}
+document.getElementById("tabUpcoming").addEventListener("click", () => setTab("upcoming"));
+document.getElementById("tabHistory").addEventListener("click", () => setTab("history"));
+
+// ─── WhatsApp ──────────────────────────────────────────────
+function enviarWhatsappDono(dados) {
+    const [ano, mes, dia] = dados.data.split("-");
+    const dataFmt = `${dia}/${mes}/${ano}`;
+    const msg = [
+        `✂️ *NOVO AGENDAMENTO — CORTEWR*`,
+        ``,
+        `👤 *Cliente:* ${dados.nome}`,
+        `📋 *Serviço:* ${dados.servico}`,
+        `📅 *Data:* ${dataFmt}`,
+        `⏰ *Horário:* ${dados.horario}`,
+        `📱 *WhatsApp do cliente:* ${dados.telefone}`,
+        ``,
+        `✅ Agendamento registrado com sucesso no sistema!`,
+    ].join("\n");
+    const url = `https://wa.me/${WHATSAPP_DONO}?text=${encodeURIComponent(msg)}`;
+    const win = window.open(url, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = url;
+    }
+}
+
+let toastTimer = null;
+function mostrarToast() {
+    const toast = document.getElementById("toastConfirmado");
+    if (toastTimer) clearTimeout(toastTimer);
+    toast.classList.add("show");
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 4000);
+}
+
+// ─── Submit ──────────────────────────────────────────────────
+document.getElementById("formAgendamento").addEventListener("submit", async e => {
+    e.preventDefault();
+    const btn  = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> Enviando agendamento...`;
+
+    const nome     = document.getElementById("nomeCliente").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+
+    if (!nome || !telefone) {
+        showMsg("❌ Preencha nome e telefone corretamente.", "#ef4444");
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
+        return;
+    }
+
+    const dados = {
+        nome,
+        telefone,
+        servico : document.getElementById("servico").value,
+        data    : document.getElementById("dataAgendamento").value,
+        horario : document.getElementById("horario").value,
+    };
+
+    try {
+        await createAppointment(dados);
+        e.target.reset();
+        document.getElementById("dataAgendamento").value = getTodayStr();
+        mostrarToast();
+        setTimeout(() => enviarWhatsappDono(dados), 800);
+        setTab("upcoming");
+        refreshAll();
+    } catch (err) {
+        showMsg(`❌ Erro ao agendar: ${err.message}`, "#ef4444");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
+    }
+});
+
+// ─── Lightbox ────────────────────────────────────────────────
+function initLightboxAndZoom() {
+    const lightbox = document.getElementById("lightbox");
+    const lbImg    = document.getElementById("lightboxImg");
+    const lbCap    = document.getElementById("lightboxCaption");
+    const closeBtn = document.getElementById("lightboxClose");
+
+    window.openImageFullscreen = (src, title, sub = "") => {
+        lbImg.src = src;
+        lbCap.textContent = sub ? `${title} · ${sub}` : title;
+        lightbox.classList.add("active");
+        document.body.style.overflow = "hidden";
+    };
+
+    function closeLightbox() {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "";
+        lbImg.src = "";
+    }
+
+    closeBtn.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) closeLightbox();
+    });
+
+    const shopPhoto = document.querySelector(".shop-photo");
+    if (shopPhoto) {
+        shopPhoto.addEventListener("click", e => {
+            e.stopPropagation();
+            window.openImageFullscreen(shopPhoto.src, shopPhoto.alt || "CORTEWR", "Barbearia Premium");
+        });
+    }
+
+    const swiperWrapper = document.querySelector(".swiper-wrapper");
+    if (swiperWrapper) {
+        swiperWrapper.addEventListener("click", e => {
+            const img   = e.target.closest("img");
+            const slide = e.target.closest(".swiper-slide");
             if (!img || !slide) return;
             e.stopPropagation();
-            const title = slide.dataset.title || slide.querySelector('h3')?.innerText || 'Estilo Exclusivo';
-            const price = slide.dataset.price || '';
+            const title = slide.dataset.title || slide.querySelector("h3")?.innerText || "Estilo Exclusivo";
+            const price = slide.dataset.price || "";
             window.openImageFullscreen(img.src, title, price);
         });
     }
+}
 
-    // ----- SWIPER -----
-    function initSwiper() {
-        if (typeof Swiper !== 'undefined') {
-            new Swiper('.mySwiper', {
-                loop: true,
-                autoplay: { delay: 3200, disableOnInteraction: false },
-                speed: 550,
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-                pagination: { el: '.swiper-pagination', clickable: true },
-            });
-        } else {
-            setTimeout(initSwiper, 150);
-        }
+// ─── Swiper ──────────────────────────────────────────────────
+function initSwiper() {
+    if (typeof Swiper !== "undefined") {
+        new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 3200, disableOnInteraction: false },
+            speed: 550,
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    } else {
+        setTimeout(initSwiper, 150);
     }
+}
 
-    // ----- INIT -----
-    const dateInput = document.getElementById('dataAgendamento');
-    dateInput.setAttribute('min', getTodayStr());
-    dateInput.value = getTodayStr();
+// ─── Init ─────────────────────────────────────────────────────
+const dateInput = document.getElementById("dataAgendamento");
+dateInput.setAttribute("min", getTodayStr());
+dateInput.value = getTodayStr();
 
-    loadFromStorage();
-    initSwiper();
-    initLightboxAndZoom();
-    refreshAll();
-
-    // Atualiza a lista a cada 30 segundos (caso outra aba modifique)
-    setInterval(refreshAll, 30000);
+initSwiper();
+initLightboxAndZoom();
+setInterval(refreshAll, 28000);
+checkApiStatus();
+refreshAll();
 </script>
 </body>
 </html>
