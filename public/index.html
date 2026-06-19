@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CORTEWR - Barbearia Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0a0a0a; }
+        .swiper-button-next, .swiper-button-prev { color: #d4af37; background: rgba(0,0,0,.6); width: 42px; height: 42px; border-radius: 50%; transition: .2s; backdrop-filter: blur(4px); }
+        .swiper-button-next:after, .swiper-button-prev:after { font-size: 20px; font-weight: bold; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { background: #b88b1f; color: #000; }
+        .swiper-pagination-bullet-active { background: #d4af37!important; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #1e1e1e; }
+        ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+        .admin-active-badge { background: linear-gradient(135deg, #d4af37, #b8860b); color: #000; font-weight: 800; box-shadow: 0 0 8px rgba(212,175,55,0.5); }
+        .swiper-slide img { width: 100%; height: 320px; object-fit: cover; cursor: pointer; transition: transform 0.3s ease; }
+        .swiper-slide img:hover { transform: scale(1.02); }
+        @media (max-width: 640px) { .swiper-slide img { height: 220px; } }
+        .tab-active { background: #d4af37; color: #0a0a0a; font-weight: 700; border-bottom: 2px solid #d4af37; }
+        .tab-inactive { background: #1f2937; color: #9ca3af; }
+        .tab-inactive:hover { background: #374151; color: #e5e7eb; }
+        .stat-card { transition: transform 0.2s ease, box-shadow 0.2s; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px -12px rgba(212,175,55,0.2); }
+        .spinner { border: 3px solid #374151; border-top-color: #d4af37; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        input:focus, select:focus { border-color: #d4af37; outline: none; }
+
+        /* LIGHTBOX */
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
+        .lightbox.active { display: flex; animation: fadeIn 0.25s ease-out; }
+        .lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 12px; box-shadow: 0 0 40px rgba(212,175,55,0.4); }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 42px; color: #d4af37; cursor: pointer; transition: 0.2s; z-index: 10000; background: rgba(0,0,0,0.6); width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .lightbox-close:hover { color: #fff; background: #d4af37; }
+        .lightbox-caption { position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; color: #d4af37; font-size: 1.3rem; font-weight: 700; background: rgba(0,0,0,0.75); padding: 12px 20px; backdrop-filter: blur(8px); border-radius: 40px; width: fit-content; margin: 0 auto; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .shop-photo { cursor: pointer; transition: transform 0.2s, filter 0.2s, box-shadow 0.2s; }
+        .shop-photo:hover { transform: scale(1.08); filter: brightness(1.08); box-shadow: 0 0 12px rgba(212,175,55,0.5); }
+
+        /* TOAST DE CONFIRMAÇÃO */
+        #toastConfirmado {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: linear-gradient(135deg, #14532d, #166534);
+            border: 1.5px solid #22c55e55;
+            border-radius: 18px;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 8px 32px rgba(34,197,94,0.35);
+            z-index: 9998;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+            opacity: 0;
+            min-width: 280px;
+            max-width: 90vw;
+        }
+        #toastConfirmado.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast-icon {
+            width: 44px; height: 44px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 16px rgba(34,197,94,0.6);
+        }
+        .toast-text { color: #fff; }
+        .toast-text strong { display: block; font-size: 1rem; font-weight: 800; }
+        .toast-text span { font-size: 0.78rem; color: #86efac; }
+
+        @media (max-width: 480px) {
+            .lightbox-close { top: 15px; right: 15px; width: 44px; height: 44px; font-size: 32px; }
+            .lightbox-caption { font-size: 1rem; bottom: 20px; }
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+<!-- HEADER -->
+<header class="bg-black/95 border-b border-yellow-700/50 sticky top-0 z-30 shadow-2xl backdrop-blur-sm">
+    <div class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-3">
+            <img src="alogo.jpeg" alt="Barbearia Corte Nobre"
+                class="shop-photo w-11 h-11 rounded-full border-2 border-yellow-600/80 object-cover shadow-md">
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight"><span class="text-yellow-500">CORTE</span>WR</h1>
+        </div>
+        <div class="flex gap-6 text-sm font-semibold items-center">
+            <a href="#agendamento" class="hover:text-yellow-400 transition flex items-center gap-1">
+                <i class="fas fa-calendar-alt text-yellow-500"></i> AGENDAR
+            </a>
+            <a href="#cortes" class="hover:text-yellow-400 transition flex items-center gap-1">
+                <i class="fas fa-scissors"></i> CORTES
+            </a>
+            <div class="border-l border-gray-700 pl-5 flex items-center gap-3">
+                <i class="fas fa-shield-alt text-yellow-600/80"></i>
+                <button id="adminToggleBtn" class="hover:text-yellow-400 transition font-semibold">
+                    <span id="adminBtnText">🔐 ADMIN</span>
+                </button>
+                <span id="adminStatusBadge" class="hidden text-xs bg-yellow-800/70 px-2 py-0.5 rounded-full font-bold">👑 MASTER</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 py-8 max-w-6xl">
+
+    <!-- STATUS API -->
+    <div id="apiStatusBar" class="mb-6 flex items-center gap-2 text-xs bg-gray-900/80 border border-gray-700 rounded-2xl px-5 py-2.5 backdrop-blur-sm">
+        <span class="spinner"></span>
+        <span id="apiStatusText" class="text-gray-400 font-mono">Conectando à API...</span>
+    </div>
+
+    <!-- MÉTRICAS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div class="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-5 border-l-4 border-yellow-500 shadow-2xl stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-yellow-400 text-sm uppercase tracking-wider font-bold"><i class="fas fa-hourglass-half mr-1"></i> EM ANDAMENTO</p>
+                    <p class="text-6xl font-black" id="activeCount">—</p>
+                    <p class="text-xs text-gray-400 mt-1">Agendamentos pendentes</p>
+                </div>
+                <div class="bg-yellow-900/30 p-3 rounded-full"><i class="fas fa-spinner fa-pulse text-yellow-500 text-4xl"></i></div>
+            </div>
+        </div>
+        <div class="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-5 border-l-4 border-amber-500 shadow-2xl stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-amber-400 text-sm uppercase tracking-wider font-bold"><i class="fas fa-trophy mr-1"></i> CLIENTES ATENDIDOS</p>
+                    <p class="text-6xl font-black" id="completedCount">—</p>
+                    <p class="text-xs text-gray-400 mt-1">Cortes concluídos com sucesso</p>
+                </div>
+                <div class="bg-yellow-900/30 p-3 rounded-full"><i class="fas fa-check-double text-amber-500 text-4xl"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFO BAR -->
+    <div class="flex flex-wrap justify-between gap-3 bg-black/50 p-4 rounded-2xl mb-10 text-sm border border-gray-800 backdrop-blur-sm">
+        <div class="flex items-center gap-2"><i class="fas fa-clock text-yellow-500 text-lg"></i> <span class="font-medium">✂️ SEG-SAB: 08:30 – 11:50 | 13:00 – 18:30</span></div>
+        <div class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-yellow-500"></i> Projeto Lagoa Nova</div>
+        <div class="flex items-center gap-2"><i class="fas fa-plug text-green-400"></i> ativo</div>
+    </div>
+
+    <!-- CARROSSEL -->
+    <section id="cortes" class="mb-16">
+        <div class="flex items-center gap-3 mb-6">
+            <i class="fas fa-scissors text-yellow-500 text-3xl"></i>
+            <h2 class="text-3xl font-extrabold">Estilos <span class="text-yellow-400">Exclusivos</span></h2>
+            <div class="h-px flex-1 bg-gradient-to-r from-yellow-700 to-transparent"></div>
+        </div>
+        <div class="swiper mySwiper rounded-2xl overflow-hidden shadow-2xl border border-yellow-800/30">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide relative" data-title="Moica-america" data-price="R$15">
+                    <img src="c1.jpeg" alt="Moica-america" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">Moica-america</h3>
+                        <p class="text-yellow-300 font-semibold">R$15 · Corte Premium</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative" data-title="mid Fada" data-price="R$15">
+                    <img src="c2.jpeg" alt="mid Fada" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">mid Fada</h3>
+                        <p class="text-yellow-300 font-semibold">R$15 · Estilo Urbano</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative" data-title="Combo Nevou+Corte" data-price="R$60">
+                    <img src="c3.jpeg" alt="Combo Nevou+Corte" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">Combo Nevou+Corte</h3>
+                        <p class="text-yellow-300 font-semibold">R$60 · Pacote Completo</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative" data-title="Combo corte+luzes" data-price="R$50">
+                    <img src="c4.jpeg" alt="Combo corte+luzes" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">Combo corte+luzes</h3>
+                        <p class="text-yellow-300 font-semibold">R$50 · + Pigmentação</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative" data-title="Corte militar" data-price="R$17">
+                    <img src="c5.jpeg" alt="Corte militar" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">Corte militar</h3>
+                        <p class="text-yellow-300 font-semibold">R$17 · Estilo Clássico</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative" data-title="mioco trem" data-price="R$15">
+                    <img src="c6.jpeg" alt="mioco trem" loading="lazy">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5">
+                        <h3 class="text-2xl font-bold">mioco trem</h3>
+                        <p class="text-yellow-300 font-semibold">R$15 · Tendência</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <p class="text-center text-xs text-gray-500 mt-3">
+            <i class="fas fa-expand-alt text-yellow-600"></i> Clique nas imagens para ver em tela cheia
+        </p>
+    </section>
+
+    <!-- AGENDAMENTO -->
+    <div class="grid md:grid-cols-2 gap-8" id="agendamento">
+
+        <!-- FORMULÁRIO -->
+        <div class="bg-gray-900/80 rounded-2xl p-6 border border-gray-800 shadow-2xl backdrop-blur-sm">
+            <div class="flex items-center gap-3 mb-5">
+                <i class="fas fa-calendar-check text-yellow-500 text-3xl"></i>
+                <h3 class="text-2xl font-extrabold">Reserve seu horário</h3>
+            </div>
+            <form id="formAgendamento" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-gray-300">Nome completo</label>
+                    <input type="text" id="nomeCliente" placeholder="Ex: João Silva" required
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500 transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-gray-300">WhatsApp</label>
+                    <input type="tel" id="telefone" placeholder="(85) 99999-9999" required
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-gray-300">Serviço</label>
+                    <select id="servico" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5">
+                        <option>Moica-america - R$15</option>
+                        <option>mid Fada - R$15</option>
+                        <option>Corte militar - R$17</option>
+                        <option>Combo corte+luzes - R$50</option>
+                        <option>degradê - R$15</option>
+                        <option>maica trem - R$15</option>
+                        <option>corte do jaca+pigamentação - R$25</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-gray-300">Data</label>
+                    <input type="date" id="dataAgendamento" required
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1 text-gray-300">Horário</label>
+                    <select id="horario" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 font-mono">
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:20">09:20</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:20">10:20</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:20">11:20</option>
+                        <option value="11:30">11:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:20">13:20</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:20">14:20</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                        <option value="18:30">18:30</option>
+                    </select>
+                </div>
+                <button type="submit" id="submitBtn"
+                    class="w-full bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-black font-extrabold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fas fa-check-circle"></i> Confirmar Agendamento
+                </button>
+            </form>
+            <div id="msgFeedback" class="mt-4 text-sm text-center hidden font-medium"></div>
+            <div class="mt-3 text-xs text-center text-yellow-600/70">
+                <i class="fas fa-info-circle"></i> Manhã: 8:30-11:50 | Tarde: 13:00-18:30
+            </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="bg-gray-900/80 rounded-2xl p-6 border border-gray-800 shadow-2xl flex flex-col">
+            <div class="flex justify-between items-center flex-wrap gap-2 border-b border-gray-700 pb-2 mb-4">
+                <div class="flex gap-2">
+                    <button id="tabUpcoming" class="tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1">
+                        <i class="fas fa-hourglass-half"></i> Em Andamento
+                    </button>
+                    <button id="tabHistory" class="tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1">
+                        <i class="fas fa-history"></i> Histórico
+                    </button>
+                </div>
+                <div id="adminHintArea" class="text-xs bg-gray-800/80 px-3 py-1.5 rounded-full border border-gray-700">
+                    <span id="adminHintText">🔒 Público: visualização</span>
+                </div>
+            </div>
+            <div id="listaAgendamentos" class="space-y-3 max-h-[440px] overflow-y-auto pr-1">
+                <div class="text-center text-gray-500 py-10"><span class="spinner"></span> Carregando agendamentos...</div>
+            </div>
+            <div class="mt-3 text-xs text-gray-500 border-t border-gray-800 pt-3 flex justify-between items-center">
+                <span><i class="fas fa-database text-yellow-600"></i> em tempo real</span>
+                <span id="adminModeStatusText" class="text-yellow-600/80 font-mono text-[11px]"></span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="border-t border-yellow-900/40 mt-16 text-center py-6 text-gray-500 text-sm bg-black/40">
+    <p>© 2026 Barbearia Corte Nobre — <code class="text-yellow-500 bg-gray-900 px-2 py-0.5 rounded">Estilo e tradição</code></p>
+    <p class="text-xs mt-1"><i class="fas fa-clock"></i> Agendamentos de 8:30 às 11:50 e 13:00 às 18:30</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+    <div class="lightbox-close" id="lightboxClose">&times;</div>
+    <img id="lightboxImg" src="" alt="Imagem ampliada">
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+</div>
+
+<!-- TOAST CONFIRMAÇÃO -->
+<div id="toastConfirmado">
+    <div class="toast-icon">
+        <i class="fas fa-check text-white text-xl"></i>
+    </div>
+    <div class="toast-text">
+        <strong>Agendamento confirmado! ✂️</strong>
+        <span>Redirecionando para o WhatsApp...</span>
+    </div>
+</div>
+
+<script>
+// ============================================================
+//  ⚙️  CONFIGURAÇÃO — altere apenas esta linha
+// ============================================================
+const WHATSAPP_DONO = "5586994811716";
+//  ↑ Número do proprietário: DDI(55) + DDD + número
+//  Exemplo Fortaleza: "5585981234567"
+// ============================================================
+
+const API            = "";          // mesmo domínio do backend
+const ADMIN_PASSWORD = "cort11W";
+
+let adminMode  = false;
+let currentTab = "upcoming";
+
+// ─── Helpers ─────────────────────────────────────────────────
+const getTodayStr = () => new Date().toISOString().split("T")[0];
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
+}
+
+function showMsg(msg, color = "#22c55e") {
+    const el = document.getElementById("msgFeedback");
+    el.innerText = msg;
+    el.style.color = color;
+    el.classList.remove("hidden");
+    setTimeout(() => el.classList.add("hidden"), 4500);
+}
+
+// ─── API ─────────────────────────────────────────────────────
+async function apiFetch(path, options = {}) {
+    const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+    const res  = await fetch(API + path, { headers, ...options });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Erro na comunicação");
+    return data;
+}
+
+async function loadStats() {
+    try {
+        const data = await apiFetch("/appointments/stats");
+        document.getElementById("activeCount").innerText    = data.pending   ?? 0;
+        document.getElementById("completedCount").innerText = data.completed ?? 0;
+    } catch {
+        document.getElementById("activeCount").innerText    = "0";
+        document.getElementById("completedCount").innerText = "0";
+    }
+}
+
+async function loadAppointments() {
+    const status = currentTab === "upcoming" ? "pending" : "completed";
+    try {
+        const data = await apiFetch(`/appointments?status=${status}`);
+        renderAppointmentsList(data.appointments || []);
+    } catch (err) {
+        document.getElementById("listaAgendamentos").innerHTML =
+            `<div class="bg-red-900/30 border border-red-700 rounded-xl p-4 text-center text-red-300 text-sm">⚠️ Falha: ${err.message}</div>`;
+    }
+}
+
+async function createAppointment(body) {
+    return apiFetch("/appointments", { method: "POST", body: JSON.stringify(body) });
+}
+
+async function completeAppointment(id) {
+    return apiFetch(`/appointments/${id}/complete`, {
+        method: "PATCH",
+        headers: { "x-admin-password": ADMIN_PASSWORD }
+    });
+}
+
+async function deleteAppointment(id) {
+    return apiFetch(`/appointments/${id}`, {
+        method: "DELETE",
+        headers: { "x-admin-password": ADMIN_PASSWORD }
+    });
+}
+
+async function refreshAll() {
+    await Promise.all([loadStats(), loadAppointments()]).catch(console.error);
+}
+
+// ─── Render lista ─────────────────────────────────────────────
+function renderAppointmentsList(appointments) {
+    const container = document.getElementById("listaAgendamentos");
+    if (!appointments || appointments.length === 0) {
+        const msg = currentTab === "upcoming"
+            ? "✨ Nenhum agendamento pendente. Agende o seu horário!"
+            : "📜 Nenhum atendimento no histórico até o momento.";
+        container.innerHTML = `<div class="bg-gray-800/50 rounded-xl p-6 text-center text-gray-400">${msg}</div>`;
+        return;
+    }
+    container.innerHTML = appointments.map(app => {
+        const [ano, mes, dia] = app.data.split("-");
+        const dataFmt   = `${dia}/${mes}/${ano}`;
+        const isPending = app.status === "pending";
+        const badge     = isPending
+            ? `<span class="text-xs bg-blue-800/70 text-blue-200 px-2 py-0.5 rounded-full"><i class="fas fa-hourglass-half"></i> Pendente</span>`
+            : `<span class="text-xs bg-green-800/70 text-green-200 px-2 py-0.5 rounded-full"><i class="fas fa-check-circle"></i> Realizado</span>`;
+
+        const infoHtml = `
+            <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-extrabold text-yellow-300 text-base">${escapeHtml(app.nome)}</span>
+                    <span class="text-xs bg-gray-700 px-2 py-0.5 rounded-full"><i class="fas fa-cut"></i> ${escapeHtml(app.servico.substring(0,40))}</span>
+                    ${badge}
+                </div>
+                <div class="text-sm text-gray-300 mt-1.5 flex gap-4 flex-wrap">
+                    <span><i class="far fa-calendar-alt text-yellow-500"></i> ${dataFmt}</span>
+                    <span><i class="far fa-clock text-yellow-500"></i> <strong class="text-white">${app.horario}</strong></span>
+                    <span><i class="fas fa-phone-alt text-gray-500"></i> ${escapeHtml(app.telefone)}</span>
+                </div>
+            </div>`;
+
+        if (adminMode) {
+            let btns = `<div class="flex gap-2 items-center ml-2">`;
+            if (isPending) btns += `<button class="complete-btn p-2 rounded-full hover:bg-green-800/50 transition" data-id="${app.id}" title="Confirmar atendimento"><i class="fas fa-check-circle text-green-400 text-xl"></i></button>`;
+            btns += `<button class="delete-btn p-2 rounded-full hover:bg-red-900/50 transition" data-id="${app.id}" title="Excluir"><i class="fas fa-trash-alt text-red-400 text-lg"></i></button></div>`;
+            return `<div class="bg-gray-800/60 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800 transition border-l-4 ${isPending ? "border-yellow-600" : "border-green-700"}">${infoHtml}${btns}</div>`;
+        }
+        return `<div class="bg-gray-800/40 rounded-xl p-3 flex justify-between items-start hover:bg-gray-800/60 transition border-l-4 ${isPending ? "border-yellow-600/50" : "border-green-700/50"}">${infoHtml}</div>`;
+    }).join("");
+
+    if (adminMode) {
+        document.querySelectorAll(".complete-btn").forEach(btn => {
+            btn.addEventListener("click", async e => {
+                e.stopPropagation();
+                if (!confirm("✂️ Marcar este corte como REALIZADO?")) return;
+                try { await completeAppointment(btn.dataset.id); showMsg("✅ Atendimento confirmado!"); refreshAll(); }
+                catch (err) { showMsg(`❌ Erro: ${err.message}`, "#ef4444"); }
+            });
+        });
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", async e => {
+                e.stopPropagation();
+                if (!confirm("⚠️ Excluir este agendamento permanentemente?")) return;
+                try { await deleteAppointment(btn.dataset.id); showMsg("🗑️ Removido.", "#f97316"); refreshAll(); }
+                catch (err) { showMsg(`❌ Falha: ${err.message}`, "#ef4444"); }
+            });
+        });
+    }
+}
+
+// ─── Status API ──────────────────────────────────────────────
+async function checkApiStatus() {
+    const bar  = document.getElementById("apiStatusBar");
+    const span = document.getElementById("apiStatusText");
+    try {
+        const data = await apiFetch("/");
+        bar.className  = "mb-6 flex items-center gap-2 text-xs bg-green-900/40 border border-green-700/70 rounded-2xl px-5 py-2.5 backdrop-blur-sm";
+        span.className = "text-green-300 font-mono font-semibold";
+        span.innerHTML = `✅ API ativa · ${data.api || "Barbearia API"} v${data.version || "1.0"} · 08:30-18:30`;
+    } catch {
+        bar.className  = "mb-6 flex items-center gap-2 text-xs bg-red-900/40 border border-red-700/60 rounded-2xl px-5 py-2.5";
+        span.className = "text-red-300";
+        span.innerHTML = "seja bem vindo";
+    }
+}
+
+// ─── Admin ───────────────────────────────────────────────────
+function updateAdminUI() {
+    const btnSpan  = document.getElementById("adminBtnText");
+    const badge    = document.getElementById("adminStatusBadge");
+    const hintText = document.getElementById("adminHintText");
+    const statusSp = document.getElementById("adminModeStatusText");
+    const hintArea = document.getElementById("adminHintArea");
+    if (adminMode) {
+        btnSpan.innerHTML = "👑 SAIR ADMIN";
+        badge.classList.remove("hidden"); badge.classList.add("admin-active-badge"); badge.innerHTML = "👑 MASTER";
+        hintText.innerHTML = "🔓 ADMIN: ✓ confirmar | 🗑️ excluir";
+        statusSp.innerHTML = "👑 Modo Admin ativo";
+        hintArea.classList.add("border","border-yellow-600/60","bg-yellow-900/30");
+    } else {
+        btnSpan.innerHTML = "🔐 ADMIN";
+        badge.classList.add("hidden"); badge.classList.remove("admin-active-badge");
+        hintText.innerHTML = "🔒 Público: visualização apenas";
+        statusSp.innerHTML = "";
+        hintArea.classList.remove("border","border-yellow-600/60","bg-yellow-900/30");
+    }
+    refreshAll();
+}
+
+document.getElementById("adminToggleBtn").addEventListener("click", () => {
+    if (adminMode) {
+        adminMode = false; updateAdminUI(); showMsg("🔒 Modo admin desativado.", "#9ca3af");
+    } else {
+        const pwd = prompt("🔐 ACESSO RESTRITO — Insira a senha do administrador:");
+        if (pwd === ADMIN_PASSWORD) { adminMode = true; updateAdminUI(); showMsg("✅ Modo ADMIN ativado!", "#facc15"); }
+        else if (pwd !== null) alert("❌ Senha incorreta! Acesso negado.");
+    }
+});
+
+// ─── Tabs ────────────────────────────────────────────────────
+function setTab(tab) {
+    currentTab = tab;
+    const u = document.getElementById("tabUpcoming");
+    const h = document.getElementById("tabHistory");
+    if (tab === "upcoming") {
+        u.className = "tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+        h.className = "tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+    } else {
+        u.className = "tab-inactive px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+        h.className = "tab-active px-5 py-1.5 rounded-t-xl text-sm font-bold transition flex items-center gap-1";
+    }
+    loadAppointments();
+}
+document.getElementById("tabUpcoming").addEventListener("click", () => setTab("upcoming"));
+document.getElementById("tabHistory").addEventListener("click", () => setTab("history"));
+
+// ============================================================
+//  📲  WHATSAPP — abre direto, sem modal, sem clicar em nada
+// ============================================================
+function enviarWhatsappDono(dados) {
+    const [ano, mes, dia] = dados.data.split("-");
+    const dataFmt = `${dia}/${mes}/${ano}`;
+
+    const msg = [
+        `✂️ *NOVO AGENDAMENTO — CORTEWR*`,
+        ``,
+        `👤 *Cliente:* ${dados.nome}`,
+        `📋 *Serviço:* ${dados.servico}`,
+        `📅 *Data:* ${dataFmt}`,
+        `⏰ *Horário:* ${dados.horario}`,
+        `📱 *WhatsApp do cliente:* ${dados.telefone}`,
+        ``,
+        `✅ Agendamento registrado com sucesso no sistema!`,
+    ].join("\n");
+
+    const url = `https://wa.me/${WHATSAPP_DONO}?text=${encodeURIComponent(msg)}`;
+
+    // Cria link invisível e aciona automaticamente
+    const link = document.createElement("a");
+    link.href   = url;
+    link.target = "_blank";
+    link.rel    = "noopener noreferrer";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Toast visual de feedback (sobe da parte de baixo)
+let toastTimer = null;
+function mostrarToast() {
+    const toast = document.getElementById("toastConfirmado");
+    if (toastTimer) clearTimeout(toastTimer);
+    toast.classList.add("show");
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 4000);
+}
+
+// ─── Submit do formulário ─────────────────────────────────────
+document.getElementById("formAgendamento").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const btn  = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> Enviando agendamento...`;
+
+    const nome     = document.getElementById("nomeCliente").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+
+    if (!nome || !telefone) {
+        showMsg("❌ Preencha nome e telefone corretamente.", "#ef4444");
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
+        return;
+    }
+
+    const dados = {
+        nome,
+        telefone,
+        servico : document.getElementById("servico").value,
+        data    : document.getElementById("dataAgendamento").value,
+        horario : document.getElementById("horario").value,
+    };
+
+    try {
+        await createAppointment(dados);
+
+        // 1️⃣  Limpar formulário
+        e.target.reset();
+        document.getElementById("dataAgendamento").value = getTodayStr();
+
+        // 2️⃣  Mostrar toast de confirmação
+        mostrarToast();
+
+        // 3️⃣  Abrir WhatsApp do dono AUTOMATICAMENTE, sem nenhum clique extra
+        enviarWhatsappDono(dados);
+
+        // 4️⃣  Atualizar lista
+        setTab("upcoming");
+        refreshAll();
+
+    } catch (err) {
+        showMsg(`❌ Erro ao agendar: ${err.message}`, "#ef4444");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Confirmar Agendamento`;
+    }
+});
+
+// ─── Lightbox ────────────────────────────────────────────────
+function initLightboxAndZoom() {
+    const lightbox = document.getElementById("lightbox");
+    const lbImg    = document.getElementById("lightboxImg");
+    const lbCap    = document.getElementById("lightboxCaption");
+    const closeBtn = document.getElementById("lightboxClose");
+
+    window.openImageFullscreen = (src, title, sub = "") => {
+        lbImg.src = src;
+        lbCap.textContent = sub ? `${title} · ${sub}` : title;
+        lightbox.classList.add("active");
+        document.body.style.overflow = "hidden";
+    };
+
+    function closeLightbox() {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "";
+        lbImg.src = "";
+    }
+
+    closeBtn.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) closeLightbox();
+    });
+
+    const shopPhoto = document.querySelector(".shop-photo");
+    if (shopPhoto) {
+        shopPhoto.addEventListener("click", e => {
+            e.stopPropagation();
+            window.openImageFullscreen(shopPhoto.src, shopPhoto.alt || "CORTEWR", "Barbearia Premium");
+        });
+    }
+
+    const swiperWrapper = document.querySelector(".swiper-wrapper");
+    if (swiperWrapper) {
+        swiperWrapper.addEventListener("click", e => {
+            const img   = e.target.closest("img");
+            const slide = e.target.closest(".swiper-slide");
+            if (!img || !slide) return;
+            e.stopPropagation();
+            const title = slide.dataset.title || slide.querySelector("h3")?.innerText || "Estilo Exclusivo";
+            const price = slide.dataset.price || "";
+            window.openImageFullscreen(img.src, title, price);
+        });
+    }
+}
+
+// ─── Swiper ──────────────────────────────────────────────────
+function initSwiper() {
+    if (typeof Swiper !== "undefined") {
+        new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 3200, disableOnInteraction: false },
+            speed: 550,
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    } else {
+        setTimeout(initSwiper, 150);
+    }
+}
+
+// ─── Init ─────────────────────────────────────────────────────
+const dateInput = document.getElementById("dataAgendamento");
+dateInput.setAttribute("min", getTodayStr());
+dateInput.value = getTodayStr();
+
+initSwiper();
+initLightboxAndZoom();
+setInterval(refreshAll, 28000);
+checkApiStatus();
+refreshAll();
+</script>
+</body>
+</html>
